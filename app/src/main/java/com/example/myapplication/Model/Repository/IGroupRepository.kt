@@ -1,4 +1,9 @@
 package com.example.myapplication.Model.Repository
 
-interface IGroupRepository {
+import androidx.room.Dao
+import com.example.myapplication.Model.Domain.Group
+
+@Dao
+interface IGroupRepository : IRepository<Group> {
+    suspend fun GetAllGroups(): List<Group>
 }

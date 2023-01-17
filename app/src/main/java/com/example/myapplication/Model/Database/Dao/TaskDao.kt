@@ -4,20 +4,17 @@ import com.example.myapplication.Model.Domain.Task
 
 @Dao
 interface TaskDao {
-    @Query("SELECT * FROM Tasks WHERE id = :id LIMIT 1")
-    fun GetItem(id: Int): Task
-
-    @Query("SELECT * FROM Tasks WHERE isSubtaskFor = -1")
-    fun GetAllTasks(): List<Task>
-
-    @Query("SELECT * FROM Tasks WHERE groupId = :id")
-    fun GetItemsByGroupId(id: Int): List<Task>
-
-    @Query("SELECT * FROM Tasks WHERE isSubtaskFor = :id")
+    @Query("SELECT * FROM Tasks WHERE isSubtaskFor == :id")
     fun GetItemsBySubtaskFor(id: Int): List<Task>
 
-    @Query("SELECT * FROM Tasks WHERE isFavourite = 1")
+    @Query("SELECT * FROM Tasks WHERE groupId == :id")
+    fun GetItemsByGroupId(id: Int): List<Task>
+
+    @Query("SELECT * FROM Tasks WHERE isFavourite == 1")
     fun GetItemsByFavourite(): List<Task>
+
+    @Query("SELECT * FROM Tasks WHERE isSubtaskFor == -1")
+    fun GetAllTasks(): List<Task>
 
     @Insert
     fun Create(item: Task)
@@ -28,6 +25,9 @@ interface TaskDao {
     @Delete
     fun Delete(item: Task)
 
-    @Query("DELETE FROM Tasks WHERE groupId = :id")
+    @Query("SELECT * FROM Tasks WHERE id == :id LIMIT 1")
+    fun GetItem(id: Int): Task
+
+    @Query("DELETE FROM Tasks WHERE groupId == :id")
     fun DeleteAllTasksByGroup(id: Int)
 }

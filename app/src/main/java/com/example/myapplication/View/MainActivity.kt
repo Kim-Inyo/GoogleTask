@@ -62,21 +62,21 @@ class MainActivity : AppCompatActivity(), TaskAdapter.Listener, GroupAdapter.Lis
             taskRepo = TaskRepository(db)
             groupRepo = GroupRepository(db)
 
-            taskList.layoutManager = LinearLayoutManager(this@MainActivity)
-            taskList.adapter = taskAdapter
+            tasksList.layoutManager = LinearLayoutManager(this@MainActivity)
+            tasksList.adapter = taskAdapter
 
             groupList.layoutManager =
                 LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
             groupList.adapter = groupAdapter
 
-            addTask.setOnClickListener { TaskCreationWindow() }
-            addGroup.setOnClickListener { GroupCreationWindow() }
-            groupTitle.setOnClickListener { setFilteredGroup(Group(0, "")) }
-            favorite.setOnClickListener {
+            addTaskIcon.setOnClickListener { openCreationOfTask() }
+            addList.setOnClickListener { openCreationOfList() }
+            task0Title.setOnClickListener { setFilteredGroup(Group(0, "")) }
+            favIconBtn.setOnClickListener {
                 taskAdapter.filteredGroupId = -1
                 initTasks()
             }
-            removeGroupBtn.setOnClickListener { GroupDeleteWindow() }
+            removeList.setOnClickListener { openDeletionOfGroup() }
 
             val taskObserver = Observer<Int> {
                 taskAdapter.notifyDataSetChanged()
@@ -96,20 +96,17 @@ class MainActivity : AppCompatActivity(), TaskAdapter.Listener, GroupAdapter.Lis
 
     fun createTask(title: String, description: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                taskRepo.Create(
-                    Task(
-                        null,
-                        title,
-                        description,
-                        LocalDateTime.now().format(DateTimeFormatter.ofPattern(TIMEPATTERN))
-                            .toString(),
-                        false,
-                        -1,
-                        taskAdapter.filteredGroupId
-                    )
+            taskRepo.Create(
+                Task(
+                    null,
+                    title,
+                    description,
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern(TIMEPATTERN)).toString(),
+                    false,
+                    -1,
+                    taskAdapter.filteredGroupId
                 )
-            }
+            )
             initTasks()
         }
     }
@@ -145,30 +142,30 @@ class MainActivity : AppCompatActivity(), TaskAdapter.Listener, GroupAdapter.Lis
         }
     }
 
-    fun TaskCreationWindow() {
+    fun openCreationOfTask() {
         val builder = AlertDialog.Builder(this)
         val inflater = layoutInflater
         val dialogLayout = inflater.inflate(R.layout.create_task_layout, null)
-        val tskNm = dialogLayout.findViewById<EditText>(R.id.taskTitleInput)
-        val tskDesc = dialogLayout.findViewById<EditText>(R.id.taskDescriptionInput)
+        val tskNm = dialogLayout.findViewById<EditText>(R.id.taskName)
+        val tskDesc = dialogLayout.findViewById<EditText>(R.id.taskDescription)
 
         with(builder) {
             setTitle("Create task")
-            setPositiveButton("OK") { dialog, which ->
+            setPositiveButton("ok") { dialog, which ->
                 if (tskNm.text.toString() != "")
                     createTask(tskNm.text.toString(), tskDesc.text.toString())
             }
-            setNegativeButton("Cancel") { dialog, which -> }
+            setNegativeButton("exit") { dialog, which -> }
             setView(dialogLayout)
             show()
         }
     }
 
-    fun GroupCreationWindow() {
+    fun openCreationOfList() {
         val builder = AlertDialog.Builder(this)
         val inflater = layoutInflater
         val dialogLayout = inflater.inflate(R.layout.create_group_layout, null)
-        val editText = dialogLayout.findViewById<EditText>(R.id.groupNameInput)
+        val editText = dialogLayout.findViewById<EditText>(R.id.listName)
 
         with(builder) {
             setTitle("Create group")
@@ -176,22 +173,21 @@ class MainActivity : AppCompatActivity(), TaskAdapter.Listener, GroupAdapter.Lis
                 if (editText.text.toString() != "")
                     createGroup(editText.text.toString())
             }
-            setNegativeButton("Cancel") { dialog, which -> }
+            setNegativeButton("cancel") { dialog, which -> }
             setView(dialogLayout)
             show()
         }
     }
 
-    fun GroupDeleteWindow() {
+    fun openDeletionOfGroup() {
         val builder = AlertDialog.Builder(this)
 
         with(builder) {
             setTitle("Delete group")
             setPositiveButton("ok") { dialog, which ->
-                setFilteredGroup(Group(0, ""))
                 removeGroup(groupAdapter.locGroup)
             }
-            setNegativeButton("exit") { dialog, which -> }
+            setNegativeButton("cancel") { dialog, which -> }
             show()
         }
     }
@@ -214,7 +210,7 @@ class MainActivity : AppCompatActivity(), TaskAdapter.Listener, GroupAdapter.Lis
     override fun setFilteredGroup(group: Group) {
         taskAdapter.filteredGroupId = group.id
         groupAdapter.locGroup = group
-        val groupTitle = findViewById<TextView>(R.id.realGroupTitle)
+        val groupTitle = findViewById<TextView>(R.id.groupTitleMain)
         groupTitle.text = group.name
         initTasks()
     }

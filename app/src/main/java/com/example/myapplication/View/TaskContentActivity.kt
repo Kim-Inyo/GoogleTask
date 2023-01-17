@@ -56,29 +56,31 @@ class TaskContentActivity : AppCompatActivity(), SubtaskAdapter.Listener {
         initSubtasks()
 
         binding.apply {
-            subtaskList.layoutManager = LinearLayoutManager(this@TaskContentActivity)
-            subtaskList.adapter = subtaskAdapter
+            subtasksList.layoutManager = LinearLayoutManager(this@TaskContentActivity)
+            subtasksList.adapter = subtaskAdapter
 
-            taskTitleContent.text = locTask.title
-            taskContent.text = locTask.description
+            taskNameContent.text = locTask.title
+            taskDescriptionContent.text = locTask.description
+            creationTime.text = locTask.date
 
-            addSubtaskBtn.setOnClickListener { SubtaskCreationWindow() }
+            addSubtask.setOnClickListener { openCreationOfSubtask() }
 
-            editTaskBtn.setOnClickListener { editTaskWindow() }
+            refreshNameDesc.setOnClickListener { openRefreshingOfTask() }
         }
+
         var backBtn = findViewById<ImageButton>(R.id.backBtn)
         backBtn.setOnClickListener { goToMain() }
     }
 
-    fun SubtaskCreationWindow() {
+    fun openCreationOfSubtask() {
         val builder = AlertDialog.Builder(this)
         val inflater = layoutInflater
         val dialogLayout = inflater.inflate(R.layout.create_task_layout, null)
-        val tskNm = dialogLayout.findViewById<EditText>(R.id.taskTitleInput)
-        val tskDesc = dialogLayout.findViewById<EditText>(R.id.taskDescriptionInput)
+        val tskNm = dialogLayout.findViewById<EditText>(R.id.taskName)
+        val tskDesc = dialogLayout.findViewById<EditText>(R.id.taskDescription)
 
         with(builder) {
-            setTitle("Create Subtask")
+            setTitle("Create task")
             setPositiveButton("ok") {dialog, which ->
                 if (tskNm.text.toString() != "")
                     createSubtask(tskNm.text.toString(), tskDesc.text.toString())
@@ -89,15 +91,15 @@ class TaskContentActivity : AppCompatActivity(), SubtaskAdapter.Listener {
         }
     }
 
-    fun editTaskWindow() {
+    fun openRefreshingOfTask() {
         val builder = AlertDialog.Builder(this)
         val inflater = layoutInflater
         val dialogLayout = inflater.inflate(R.layout.create_task_layout, null)
-        val tskNm = dialogLayout.findViewById<EditText>(R.id.taskTitleInput)
-        val tskDesc = dialogLayout.findViewById<EditText>(R.id.taskDescriptionInput)
+        val tskNm = dialogLayout.findViewById<EditText>(R.id.taskName)
+        val tskDesc = dialogLayout.findViewById<EditText>(R.id.taskDescription)
 
         with(builder) {
-            setTitle("Edit Task")
+            setTitle("Edit Subtask")
             setPositiveButton("ok") {dialog, which ->
                 if (tskNm.text.toString() != "")
                     locTask.title = tskNm.text.toString()
@@ -105,7 +107,7 @@ class TaskContentActivity : AppCompatActivity(), SubtaskAdapter.Listener {
                     locTask.description = tskDesc.text.toString()
                 refreshTask()
             }
-            setNegativeButton("exit") { dialog, which -> }
+            setNegativeButton("cancel") { dialog, which -> }
             setView(dialogLayout)
             show()
         }
@@ -113,26 +115,24 @@ class TaskContentActivity : AppCompatActivity(), SubtaskAdapter.Listener {
 
     fun createSubtask(title: String, description: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                taskRepo.Create(
-                    Task(
-                        null,
-                        title,
-                        description,
-                        LocalDateTime.now().format(DateTimeFormatter.ofPattern(TIMEPATTERN)).toString(),
-                        false,
-                        locTask.id,
-                        0
-                    )
+            taskRepo.Create(
+                Task(
+                    null,
+                    title,
+                    description,
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern(TIMEPATTERN)).toString(),
+                    false,
+                    locTask.id,
+                    0
                 )
-            }
+            )
             initSubtasks()
         }
     }
 
     fun refreshTask() {
-        binding.taskTitleContent.text = locTask.title
-        binding.taskContent.text = locTask.description
+        binding.taskNameContent.text = locTask.title
+        binding.taskDescriptionContent.text = locTask.description
 
         CoroutineScope(Dispatchers.IO).launch {
             taskRepo.Update(locTask)

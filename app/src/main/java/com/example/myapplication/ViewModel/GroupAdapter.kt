@@ -10,28 +10,28 @@ import com.example.myapplication.databinding.GroupLayoutBinding
 import java.util.*
 import kotlin.collections.ArrayList
 
-class GroupAdapter(val listener: Listener) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
+class GroupAdapter(val listener: Listener) : RecyclerView.Adapter<GroupAdapter.GroupHolder>() {
     val groupList = ArrayList<Group>()
     var locGroup: Group = Group(-1, "")
 
-    class ViewHolder(item: View): RecyclerView.ViewHolder(item) {
+    class GroupHolder(item: View): RecyclerView.ViewHolder(item) {
         val binding = GroupLayoutBinding.bind(item)
 
         fun bind(group: Group, listener: Listener, position: Int) = with(binding) {
-            groupTitle.text = group.name
+            listNum.text = group.name
 
-            groupTitle.setOnClickListener {
+            listNum.setOnClickListener {
                 listener.setFilteredGroup(group)
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.group_layout, parent, false)
-        return GroupAdapter.ViewHolder(view)
+        return GroupAdapter.GroupHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: GroupHolder, position: Int) {
         holder.bind(groupList[position], listener, position);
     }
 

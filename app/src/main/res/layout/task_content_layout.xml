@@ -4,61 +4,101 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CFD8DC">
+    android:background="#CFD8DC"
+    tools:context=".View.TaskContentActivity">
 
     <ImageButton
         android:id="@+id/backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="?attr/homeAsUpIndicator" />
 
     <TextView
-        android:id="@+id/taskTitleContent"
+        android:id="@+id/taskNameContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Title"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="@+id/backBtn"
+        android:layout_marginTop="20dp"
+        android:text="Task title"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/taskContent"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/subtaskList"
+        android:id="@+id/taskDescriptionContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:padding="5dp"
+        android:hint="Description"
+        android:textColor="#494949"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/creationTime" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/subtaskList"
-        android:layout_width="405dp"
-        android:layout_height="382dp"
-        app:layout_constraintBottom_toTopOf="@+id/addSubtaskBtn"
+        android:id="@+id/subtasksList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/addSubtask"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/subtask_layout"/>
+        app:layout_constraintTop_toBottomOf="@+id/subTaskListText"
+        tools:itemCount="2"
+        tools:listitem="@layout/subtask_layout" />
 
     <ImageButton
-        android:id="@+id/addSubtaskBtn"
+        android:id="@+id/addSubtask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_add"
-        android:text="Add Subtask"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@android:drawable/ic_menu_add" />
 
-    <ImageButton
-        android:id="@+id/editTaskBtn"
+    <TextView
+        android:id="@+id/subTaskListText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="25dp"
+        android:text="Subtasks"
+        android:textColor="#000000"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subtaskList"
+        app:layout_constraintTop_toBottomOf="@+id/taskDescriptionContent" />
+
+    <TextView
+        android:id="@+id/creationTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text=""
+        android:textColor="#4C4C4C"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskNameContent" />
+
+    <ImageButton
+        android:id="@+id/refreshNameDesc"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="25dp"
+        app:layout_constraintBottom_toBottomOf="@+id/addSubtask"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/addSubtask"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 </androidx.constraintlayout.widget.ConstraintLayout>

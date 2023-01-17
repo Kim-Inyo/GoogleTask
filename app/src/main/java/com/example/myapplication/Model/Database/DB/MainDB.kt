@@ -9,7 +9,7 @@ import com.example.myapplication.Model.Database.Dao.TaskDao
 import com.example.myapplication.Model.Domain.Group
 import com.example.myapplication.Model.Domain.Task
 
-@Database(entities = [Task::class, Group::class], version = 1)
+@Database (entities = [Task::class, Group::class], version = 1)
 abstract class MainDB : RoomDatabase() {
     abstract fun getTaskDao(): TaskDao
     abstract fun getGroupDao(): GroupDao
@@ -18,7 +18,7 @@ abstract class MainDB : RoomDatabase() {
             return Room.databaseBuilder(
                 context.applicationContext,
                 MainDB::class.java,
-                "Tasks.db"
+                "DB.db"
             ).build()
         }
     }

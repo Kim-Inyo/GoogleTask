@@ -7,16 +7,8 @@
     android:background="#CFD8DC"
     tools:context=".View.MainActivity">
 
-    <ImageButton
-        android:id="@+id/favorite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/star_big_off" />
-
     <TextView
-        android:id="@+id/groupTitle"
+        android:id="@+id/task0Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -28,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/realGroupTitle"
+        android:id="@+id/groupTitleMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -36,50 +28,52 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/groupTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/task0Title" />
+
+    <ImageButton
+        android:id="@+id/addTaskIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:src="@android:drawable/ic_input_add"
+        app:layout_constraintBottom_toBottomOf="@+id/task0Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/task0Title" />
+
+
+    <ImageButton
+        android:id="@+id/favIconBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/task0Title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/task0Title"
+        app:srcCompat="@android:drawable/star_big_off" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/taskList"
+        android:id="@+id/tasksList"
         android:layout_width="match_parent"
-        android:layout_height="506dp"
+        android:layout_height="500dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/realGroupTitle"
+        app:layout_constraintBottom_toTopOf="@+id/linLay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/groupTitleMain"
         tools:itemCount="3"
-        tools:layout_editor_absoluteX="3dp"
         tools:listitem="@layout/task_layout" />
 
-    <ImageButton
-        android:id="@+id/addTask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_input_add"
-        android:text="Add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskList" />
-
-    <ImageButton
-        android:id="@+id/addGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_sort_by_size"
-        android:text="Group"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskList" />
-
     <LinearLayout
-        android:id="@+id/groupBox"
+        android:id="@+id/linLay"
         android:layout_width="0dp"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="9dp"
         android:layout_marginBottom="15dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/addTask"
-        app:layout_constraintStart_toEndOf="@+id/addGroup"
-        app:layout_constraintTop_toBottomOf="@+id/taskList">
+        app:layout_constraintEnd_toStartOf="@+id/removeList"
+        app:layout_constraintStart_toEndOf="@+id/addList">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/groupList"
@@ -92,13 +86,28 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="5"
             tools:listitem="@layout/group_layout" />
+
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/removeGroupBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/addList"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="5dp"
+        android:src="@android:drawable/ic_menu_sort_by_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tasksList" />
+
+    <ImageButton
+        android:id="@+id/removeList"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="9dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tasksList"
+        app:layout_constraintVertical_bias="0.438"
         app:srcCompat="@android:drawable/ic_menu_delete" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

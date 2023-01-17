@@ -15,7 +15,7 @@ data class Task (
     @ColumnInfo(name = "date")
     var date: String,
     @ColumnInfo(name = "isFavourite")
-    var isFavorite: Boolean,
+    var isFavourite: Boolean,
     @ColumnInfo(name = "isSubtaskFor")
     var isSubtaskFor: Int?,
     @ColumnInfo(name = "groupId")
